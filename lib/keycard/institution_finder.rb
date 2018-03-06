@@ -31,7 +31,7 @@ module Keycard
       insts = insts_for_ip(numeric_ip)
 
       if !insts.empty?
-        { 'dlpsInstitutionIds' => insts }
+        { 'dlpsInstitutionId' => insts }
       else
         {}
       end
