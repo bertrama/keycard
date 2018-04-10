@@ -14,7 +14,7 @@ module Keycard
       end
 
       def attributes_for(request)
-        return {} unless (numeric_ip = numeric_ip(request.ip))
+        return {} unless (numeric_ip = numeric_remote_ip(request))
         return {} if (insts = insts_for_ip(numeric_ip)).empty?
         { key => insts }
       end
@@ -46,8 +46,8 @@ module Keycard
         matching.reject(&:deny?).map(&:name).reject { |name| denied.include?(name) }
       end
 
-      def numeric_ip(dotted_ip)
-        Institution.parse_ip(dotted_ip)
+      def numeric_remote_ip(request)
+        Institution.parse_ip(request.respond_to?(:remote_ip) ? request.remote_ip : request.ip)
       end
     end
   end
